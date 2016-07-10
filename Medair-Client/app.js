@@ -61,6 +61,7 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.get('/signin', index.signIn);
 app.get('/signup', index.signUp);
+app.get('/volunteer_signup', index.volunteer_signUp);
 app.get('/homepage', login.redirectToHomepage);
 app.get('/logout', login.logout);
 app.get('/getRequestByRefugee', sessionMgmt.restrict,organization.getRequestByRefugee);
@@ -69,6 +70,7 @@ app.get('/getRequestByRefugee', sessionMgmt.restrict,organization.getRequestByRe
 app.get('/getAllRefugees', sessionMgmt.restrict,user.getAll);
 app.get('/getNumberOfInProgressRequests', sessionMgmt.restrict,organization.noofinprogressrequests);
 app.get('/getNoOfCompletedRequests', sessionMgmt.restrict,organization.noofcompletedrequests);
+
 
 //app.get('/getOrgLocation', sessionMgmt.restrict,organization.getLocations);
 app.get('/getAllRefugees', sessionMgmt.restrict,user.getAll);
@@ -106,8 +108,9 @@ app.post('/textRequestService',user.textRequestService);
 app.post('/requestHelp',user.requestHelp);
 app.post('/getAllRefugeesRequests',user.getAllRefugeesRequests);
 //app.post('/request',user.request);
-
+app.post('/getAllVolunteers',user.getAllVolunteers);
 app.post('/checkLogin', login.checkLogin);
+app.get('/testAdmin', index.adminDashboard);
 
 app.use(function (req, res, next) {
     res.render('error');
