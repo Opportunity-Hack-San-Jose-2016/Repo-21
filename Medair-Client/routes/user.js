@@ -152,7 +152,30 @@ exports.getAll = function(req, res) {
 	});
 };
 
-exports.testRequestService = function(req, res) {
+exports.getAllVolunteers = function(req, res) {
+    var msg_Payload = {};
+    mq_client.make_request('getAllVolunteers_queue', msg_Payload, function(err,
+                                                                         results) {
+        if (err) {
+            console.log('Err: ' + err);
+            res.send(results);
+            // throw err;
+        } else {
+            if (results.statusCode == 200) {
+                console.log('Successful creation of User!');
+                res.send(results);
+            } else if (results.statusCode == 402) {
+                console.log('User already exist.');
+                res.send(results);
+            } else {
+                console.log('Error Occured!');
+                res.send(results);
+            }
+        }
+    });
+};
+
+exports.textRequestService = function(req, res) {
 
 	var msg_payload = {
 		'text' : req.param('text'),

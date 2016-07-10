@@ -67,7 +67,7 @@ app.get('/getNoOfCompletedRequests', sessionMgmt.restrict,organization.noofcompl
 
 //app.get('/getOrgLocation', sessionMgmt.restrict,organization.getLocations);
 app.get('/getAllRefugees', sessionMgmt.restrict,user.getAll);
-
+app.post('/getAllVolunteers', user.getAllVolunteers);
 
 //POST
 app.post('/login', login.checkLogin);
