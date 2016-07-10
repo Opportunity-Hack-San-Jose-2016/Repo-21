@@ -72,7 +72,9 @@ app.get('/getAllRefugees', sessionMgmt.restrict,user.getAll);
 //POST
 app.post('/login', login.checkLogin);
 app.post('/register', user.register);
-app.get('/volunteer_register', user.volunteer_register);
+app.post('/volunteer_register', user.volunteer_register);
+app.post('/textRequestService',user.textRequestService);
+app.post('/requestHelp',user.requestHelp);
 //app.post('/request',user.request);
 
 app.post('/checkLogin', login.checkLogin);
