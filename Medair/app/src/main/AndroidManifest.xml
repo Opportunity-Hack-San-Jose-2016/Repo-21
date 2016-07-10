@@ -36,8 +36,6 @@
         </activity>
         <activity android:name=".HomeActivity" >
         </activity>
-        <activity android:name=".Main2Activity" >
-        </activity>
         <activity android:name=".ServicesNeededActivity" >
         </activity>
     </application>
