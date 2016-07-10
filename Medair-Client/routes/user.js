@@ -217,7 +217,25 @@ exports.getAllRefugeesRequests = function(req, res) {
 		} else {
 			if (results.statusCode == 200) {
 				console.log('Got all help requests!');
-				res.send(results);
+				var totalNewReq = 0;
+				var totalInprogressReq = 0;
+				var totalCompletedReq = 0;
+				var allLocations = [];
+				for(var i = 0; i < results.result.length; i++){
+					if(results.result[i].request_status === 'new'){
+						totalNewReq++;
+					} else if(results.result[i].request_status === 'completed'){
+						totalCompletedReq++;
+					} else {
+						totalInprogressReq++;
+					}
+					allLocations.push(results.result[i].location);
+				}
+				var json_res = {newRequests: totalNewReq, inProgressRequests: totalInprogressReq, completedRequested: totalCompletedReq, locations: allLocations};
+
+
+
+				res.send(json_res);
 			} else if (results.statusCode == 402) {
 				console.log('User already exist.');
 				res.send(results);

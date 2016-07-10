@@ -163,12 +163,12 @@ exports.getAll = function(msg, callback){
 
 
 exports.getAllHelpRequests = function(msg, callback){
-	console.log('create volunteer');
+	console.log('getting all help req');
 	mongo.connect(mongoURL, function () {
 		var json_responses;
 		console.log('Connected to mongo at: ' + mongoURL);
 		var coll = mongo.collection('HelpRequests');
-		console.log("order creation ");
+		console.log("help req");
 		var params = {};
 		coll.find(params).toArray(function (err, result) {
 			var jsonResponse;

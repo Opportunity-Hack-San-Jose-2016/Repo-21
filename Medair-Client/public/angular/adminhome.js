@@ -14,9 +14,9 @@ app.controller('adminCntrl', function($scope, $http){
 				$scope.newRequests = data.newRequests;
 				$scope.inProgressRequests = data.inProgressRequests;
 				$scope.completedRequested = data.completedRequested;
-				$scope.locations = data.locations;
+				//$scope.locations = data.locations;
 				
-				var temp = [{lat: 33.93911, long: 67.709953, msg: "Hey I need help"},
+				/*var temp = [{lat: 33.93911, long: 67.709953, msg: "Hey I need help"},
 				            {lat: -4.038333, long: 21.758664, msg: "Hey I need help"},
 				            {lat: -1.831239, long: -78.183406, msg: "Hey I need help"},
 				            {lat: -18.766947, long: 46.869107, msg: "Hey I need help"},
@@ -26,7 +26,7 @@ app.controller('adminCntrl', function($scope, $http){
 				            {lat: 34.802075, long: 38.996815, msg: "Hey I need help"},
 				            {lat: 28.394857, long: 84.124008, msg: "Hey I need help"},
 				            {lat: 12.862807, long: 30.217636, msg: "Hey I need help"},
-				            {lat: 5.152149, long: 46.199616, msg: "Hey I need help"}];
+				            {lat: 5.152149, long: 46.199616, msg: "Hey I need help"}];*/
 				
 				//Google Maps
 				var myCenter=new google.maps.LatLng(5.152149,46.199616);
@@ -41,9 +41,9 @@ app.controller('adminCntrl', function($scope, $http){
 
 		        var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
 
-		        for(var i = 0; i < temp.length; i++){
+		        for(var i = 0; i < data.locations.length; i++){
 		        	 var marker=new google.maps.Marker({
-				          position:new google.maps.LatLng(temp[i].lat, temp[i].long),
+				          position:new google.maps.LatLng(data.locations[i].lat, data.locations[i].long),
 				          });
 
 				        marker.setMap(map);
