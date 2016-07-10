@@ -15,7 +15,8 @@ var expressSession = require("express-session");
 var mongoStore = require("connect-mongo")(expressSession);
 var mongo = require('./services/mongo');
 var organization = require('./services/organization');
-
+var refugee = require('./services/refugee');
+var volunteer = require('./services/volunteer');
 var app = express();
 
 app.set('port', process.env.PORT || 4100);
@@ -96,5 +97,176 @@ cnn.on('ready', function () {
         });
     });
     
+    cnn.queue('createVolunteer_queue', function(q){
+
+        q.subscribe(function(message, headers, deliveryInfo, m){
+            util.log(util.format( deliveryInfo.routingKey, message));
+            util.log("Message: "+JSON.stringify(message));
+            util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+            volunteer.createVolunteer(message, function(err,res){
+                console.log('inside create volunteer');
+                //return index sent
+                cnn.publish(m.replyTo, res, {
+                    contentType:'application/json',
+                    contentEncoding:'utf-8',
+                    correlationId:m.correlationId
+                });
+            });
+        });
+    });
+
+    cnn.queue('getAllVolunteers_queue', function(q){
+
+        q.subscribe(function(message, headers, deliveryInfo, m){
+            util.log(util.format( deliveryInfo.routingKey, message));
+            util.log("Message: "+JSON.stringify(message));
+            util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+            volunteer.getAllVolunteers(message, function(err,res){
+                console.log('inside create volunteer');
+                //return index sent
+                cnn.publish(m.replyTo, res, {
+                    contentType:'application/json',
+                    contentEncoding:'utf-8',
+                    correlationId:m.correlationId
+                });
+            });
+        });
+    });
+
+    cnn.queue('requestHelp_queue', function(q){
+        q.subscribe(function(message, headers, deliveryInfo, m){
+            util.log(util.format( deliveryInfo.routingKey, message));
+            util.log("Message: "+JSON.stringify(message));
+            util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+            refugee.requestHelp(message, function(err,res){
+
+                //return index sent
+                cnn.publish(m.replyTo, res, {
+                    contentType:'application/json',
+                    contentEncoding:'utf-8',
+                    correlationId:m.correlationId
+                });
+            });
+        });
+    });
+
+    cnn.queue('getRequestByRefugee_queue', function(q){
+        q.subscribe(function(message, headers, deliveryInfo, m){
+            util.log(util.format( deliveryInfo.routingKey, message));
+            util.log("Message: "+JSON.stringify(message));
+            util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+            organization.noofnewrequests(message, function(err,res){
+
+                //return index sent
+                cnn.publish(m.replyTo, res, {
+                    contentType:'application/json',
+                    contentEncoding:'utf-8',
+                    correlationId:m.correlationId
+                });
+            });
+        });
+    });
+
+    cnn.queue('getLocations_queue', function(q){
+        q.subscribe(function(message, headers, deliveryInfo, m){
+            util.log(util.format( deliveryInfo.routingKey, message));
+            util.log("Message: "+JSON.stringify(message));
+            util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+            organization.getLocations(message, function(err,res){
+
+                //return index sent
+                cnn.publish(m.replyTo, res, {
+                    contentType:'application/json',
+                    contentEncoding:'utf-8',
+                    correlationId:m.correlationId
+                });
+            });
+        });
+    });
+
+    cnn.queue('getAllRefugees_queue', function(q){
+        q.subscribe(function(message, headers, deliveryInfo, m){
+            util.log(util.format( deliveryInfo.routingKey, message));
+            util.log("Message: "+JSON.stringify(message));
+            util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+            refugee.getAll(message, function(err,res){
+
+                //return index sent
+                cnn.publish(m.replyTo, res, {
+                    contentType:'application/json',
+                    contentEncoding:'utf-8',
+                    correlationId:m.correlationId
+                });
+            });
+        });
+    });
+
+    cnn.queue('getNoOfInProgressRequests_queue', function(q){
+        q.subscribe(function(message, headers, deliveryInfo, m){
+            util.log(util.format( deliveryInfo.routingKey, message));
+            util.log("Message: "+JSON.stringify(message));
+            util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+            organization.noofinprogressrequests(message, function(err,res){
+
+                //return index sent
+                cnn.publish(m.replyTo, res, {
+                    contentType:'application/json',
+                    contentEncoding:'utf-8',
+                    correlationId:m.correlationId
+                });
+            });
+        });
+    });
+
+    cnn.queue('getNoOfCompletedRequests_queue', function(q){
+        q.subscribe(function(message, headers, deliveryInfo, m){
+            util.log(util.format( deliveryInfo.routingKey, message));
+            util.log("Message: "+JSON.stringify(message));
+            util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+            organization.noofcompletedrequests(message, function(err,res){
+
+                //return index sent
+                cnn.publish(m.replyTo, res, {
+                    contentType:'application/json',
+                    contentEncoding:'utf-8',
+                    correlationId:m.correlationId
+                });
+            });
+        });
+    });
+    cnn.queue('getOrganisationByServices_queue', function(q){
+        q.subscribe(function(message, headers, deliveryInfo, m){
+            util.log(util.format( deliveryInfo.routingKey, message));
+            util.log("Message: "+JSON.stringify(message));
+            util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+            organization.getOrganisationByServices(message, function(err,res){
+
+                //return index sent
+                cnn.publish(m.replyTo, res, {
+                    contentType:'application/json',
+                    contentEncoding:'utf-8',
+                    correlationId:m.correlationId
+                });
+            });
+        });
+    });
+    
+    cnn.queue('textRequestServices_queue', function(q){
+        q.subscribe(function(message, headers, deliveryInfo, m){
+            util.log(util.format( deliveryInfo.routingKey, message));
+            util.log("Message: "+JSON.stringify(message));
+            util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+            refugee.textRequestService(message, function(err,res){
+
+                //return index sent
+                cnn.publish(m.replyTo, res, {
+                    contentType:'application/json',
+                    contentEncoding:'utf-8',
+                    correlationId:m.correlationId
+                });
+            });
+        });
+    });
+
   
 });
