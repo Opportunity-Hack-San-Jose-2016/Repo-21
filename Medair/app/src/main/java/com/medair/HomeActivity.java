@@ -20,6 +20,10 @@ public class HomeActivity extends AppCompatActivity implements LocationListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        setUpMapIfNeeded();
+
+        setTitle("Home");
     }
 
     private void setUpMapIfNeeded() {
@@ -30,7 +34,6 @@ public class HomeActivity extends AppCompatActivity implements LocationListener,
                     .getMap();
             mMap.setMyLocationEnabled(true);
             mMap.setOnMyLocationChangeListener(this);
-
         }
     }
 

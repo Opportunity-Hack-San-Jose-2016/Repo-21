@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -63,6 +62,13 @@ app.get('/getRequestByRefugee', sessionMgmt.restrict,organization.getRequestsByR
 app.get('/getOrgLocation', sessionMgmt.restrict,organization.getLocations);
 app.get('/getAllRefugees', sessionMgmt.restrict,user.getAll);
 
+//POST
+app.post('/login', login.checkLogin);
+app.post('/register', user.register);
+app.post('/request',user.request);
+
+app.post('/checkLogin', login.checkLogin);
+
 
 //POST
 app.post('/login', login.checkLogin);
@@ -70,17 +76,15 @@ app.post('/register', user.register);
 app.post('/request',user.request);
 
 
-app.post('/checkLogin', login.checkLogin);
-
-app.use(function(req, res, next) {
-	res.render('error');
+app.use(function (req, res, next) {
+    res.render('error');
 });
 
 
 //connect to the mongo collection session and then createServer
-mongo.connect(mongoSessionConnectURL, function(){
-	console.log('Connected to mongo at: ' + mongoSessionConnectURL);
-	http.createServer(app).listen(app.get('port'), function(){
-		console.log('Express server listening on port ' + app.get('port'));
-	});  
+mongo.connect(mongoSessionConnectURL, function () {
+    console.log('Connected to mongo at: ' + mongoSessionConnectURL);
+    http.createServer(app).listen(app.get('port'), function () {
+        console.log('Express server listening on port ' + app.get('port'));
+    });
 });
