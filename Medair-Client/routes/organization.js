@@ -134,10 +134,12 @@ exports.noofcompletedrequests = function (req, res) {
 
 exports.getOrg = function(req,res) {
 
+    console.log("Reached CLinets: "+req.param('from'));
+
     msg_payload = {
         'services': req.param('from')
-    }
-    mq_client.make_request('getOrganisationByServices_queue', msg_Payload, function (err, results) {
+    };
+    mq_client.make_request('getOrganisationByServices_queue', msg_payload, function (err, results) {
         if (err) {
             console.log('Err: ' + err);
             res.send({'statusCode': 402});

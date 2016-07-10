@@ -22,6 +22,8 @@ exports.login = function (req, res) {
 
 //Check login - called when '/checklogin' POST call given from AngularJS module in login.ejs
 exports.checkLogin = function (req, res) {
+    res.render("refugeeHome");
+
     if (req.session.user) {
         console.log('validated user');
         res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
