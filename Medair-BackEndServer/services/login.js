@@ -13,7 +13,7 @@ exports.checkLogin = function (msg, callback) {
         var json_responses;
         console.log('Connected to mongo at: ' + mongoURL);
         var coll = mongo.collection('Refugee');
-        console.log("order creation ");
+        console.log("uid is: "+ msg.uid);
         var params = {
             'uid': msg.uid
         };
@@ -23,7 +23,7 @@ exports.checkLogin = function (msg, callback) {
                 jsonResponse = {'statusCode': 401};
                 callback(null, jsonResponse);
             } else {
-                if (result.length() > 0) {
+                if (result) {
                     hash(msg.password, result.salt, function (err, hash) {
                         if (err) {
                             console.log("ERROR: " + err);

@@ -55,7 +55,7 @@ exports.getLocations = function (req, res) {
 
     var jsonResponse;
     var msg_Payload = {
-        'ordId': req.param('orgId'),
+        'orgId': req.param('orgId'),
     };
 
     mq_client.make_request('getLocations_queue', msg_Payload, function (err, results) {

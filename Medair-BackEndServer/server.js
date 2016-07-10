@@ -98,12 +98,31 @@ cnn.on('ready', function () {
     });
     
     cnn.queue('createVolunteer_queue', function(q){
+
         q.subscribe(function(message, headers, deliveryInfo, m){
             util.log(util.format( deliveryInfo.routingKey, message));
             util.log("Message: "+JSON.stringify(message));
             util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
             volunteer.createVolunteer(message, function(err,res){
+                console.log('inside create volunteer');
+                //return index sent
+                cnn.publish(m.replyTo, res, {
+                    contentType:'application/json',
+                    contentEncoding:'utf-8',
+                    correlationId:m.correlationId
+                });
+            });
+        });
+    });
 
+    cnn.queue('getAllVolunteers_queue', function(q){
+
+        q.subscribe(function(message, headers, deliveryInfo, m){
+            util.log(util.format( deliveryInfo.routingKey, message));
+            util.log("Message: "+JSON.stringify(message));
+            util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+            volunteer.getAllVolunteers(message, function(err,res){
+                console.log('inside create volunteer');
                 //return index sent
                 cnn.publish(m.replyTo, res, {
                     contentType:'application/json',
