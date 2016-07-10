@@ -34,7 +34,7 @@ app.use(expressSession({
 }));
 
 // all environments
-app.set('port', process.env.PORT || 3001);
+app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.use(express.favicon());
@@ -60,7 +60,7 @@ app.get('/homepage', login.redirectToHomepage);
 app.get('/logout', login.logout);
 app.get('/getRequestByRefugee', sessionMgmt.restrict,organization.getRequestByRefugee);
 
-//app.get('/getOrgLocation', sessionMgmt.restrict,organization.getO);
+app.get('/getOrgLocation', sessionMgmt.restrict,organization.getLocations);
 app.get('/getAllRefugees', sessionMgmt.restrict,user.getAll);
 app.get('/getNumberOfInProgressRequests', sessionMgmt.restrict,organization.noofinprogressrequests);
 app.get('/getNoOfCompletedRequests', sessionMgmt.restrict,organization.noofcompletedrequests);
@@ -88,3 +88,5 @@ mongo.connect(mongoSessionConnectURL, function () {
         console.log('Express server listening on port ' + app.get('port'));
     });
 });
+
+//
