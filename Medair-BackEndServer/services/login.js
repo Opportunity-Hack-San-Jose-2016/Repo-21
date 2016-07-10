@@ -1,7 +1,7 @@
 var hash = require('./encryption').hash;
 var mysql = require('./mysql');
 var mongo = require("./mongo");
-var mongoURL = "mongodb://localhost:27017/Amazonfresh";
+var mongoURL = "mongodb://localhost:27017/medair";
 
 //Check login - called when '/checklogin' POST call given from AngularJS module in login.ejs
 exports.checkLogin = function(msg, callback) {
