@@ -60,17 +60,17 @@ exports.register = function (req, res) {
 
 exports.requestHelp = function (req, res) {
 
-        var msg_Payload = {
-            'uid': req.param('uid'),
-            'orgId': req.param('orgId'),
-            'organization':req.param('organization'),
-            'firstName':req.param('firstName'),
-            'lastName':req.param('lastName'),
-            'services': req.param('services'),
-            'location': req.param('locations'),
-            'password': req.param('password'),
-            'disability':req.param('disability')
-        };
+    var msg_Payload = {
+        'uid': req.param('uid'),
+        'orgId': req.param('orgId'),
+        'organization': req.param('organization'),
+        'firstName': req.param('firstName'),
+        'lastName': req.param('lastName'),
+        'services': req.param('services'),
+        'location': req.param('locations'),
+        'password': req.param('password'),
+        'disability': req.param('disability')
+    };
     mq_client.make_request('requestHelp_queue', msg_Payload, function (err, results) {
         if (err) {
             console.log('Err: ' + err);
@@ -90,3 +90,26 @@ exports.requestHelp = function (req, res) {
         }
     });
 };
+
+exports.getAll = function (req, res) {
+    var msg_Payload = {};
+    mq_client.make_request('getAllRefugees_queue', msg_Payload, function (err, results) {
+        if (err) {
+            console.log('Err: ' + err);
+            res.send(results);
+            //throw err;
+        } else {
+            if (results.statusCode == 200) {
+                console.log('Successful creation of User!');
+                res.send(results);
+            } else if (results.statusCode == 402) {
+                console.log('User already exist.');
+                res.send(results);
+            } else {
+                console.log('Error Occured!');
+                res.send(results);
+            }
+        }
+    });
+};
+
