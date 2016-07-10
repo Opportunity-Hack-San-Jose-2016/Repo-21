@@ -60,7 +60,7 @@ app.get('/homepage', login.redirectToHomepage);
 app.get('/logout', login.logout);
 app.get('/getRequestByRefugee', sessionMgmt.restrict,organization.getRequestByRefugee);
 
-app.get('/getOrgLocation', sessionMgmt.restrict,organization.getLocations());
+app.get('/getOrgLocation', sessionMgmt.restrict,organization.getLocations);
 app.get('/getAllRefugees', sessionMgmt.restrict,user.getAll);
 app.get('/getNumberOfInProgressRequests', sessionMgmt.restrict,organization.noofinprogressrequests);
 app.get('/getNoOfCompletedRequests', sessionMgmt.restrict,organization.noofcompletedrequests);
