@@ -115,7 +115,26 @@ exports.noofcompletedrequests = function (msg, callback) {
     });
 };
 
-
+exports.getLocations = function(msg,callback){
+    mongo.connect(mongoURL, function () {
+        var json_responses;
+        console.log('Connected to mongo at: ' + mongoURL);
+        var coll = mongo.collection('Organizations');
+        var params = {
+            'orgId': msg.orgId
+        };
+        coll.find(params,{'Locations':1}).toArray(function (err, result) {
+            var jsonResponse;
+            if (err) {
+                jsonResponse = {'statusCode': 401};
+                callback(null, jsonResponse);
+            } else {
+                jsonResponse = {'statusCode': 200, 'Locations': result};
+                callback(null, jsonResponse);
+            }
+        });
+    });
+};
 
 
 

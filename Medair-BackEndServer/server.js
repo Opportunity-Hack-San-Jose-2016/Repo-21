@@ -118,7 +118,7 @@ cnn.on('ready', function () {
             util.log(util.format( deliveryInfo.routingKey, message));
             util.log("Message: "+JSON.stringify(message));
             util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
-            organization.getRequestByRefugee(message, function(err,res){
+            organization.noofnewrequests(message, function(err,res){
 
                 //return index sent
                 cnn.publish(m.replyTo, res, {
@@ -153,6 +153,40 @@ cnn.on('ready', function () {
             util.log("Message: "+JSON.stringify(message));
             util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
             refugee.getAll(message, function(err,res){
+
+                //return index sent
+                cnn.publish(m.replyTo, res, {
+                    contentType:'application/json',
+                    contentEncoding:'utf-8',
+                    correlationId:m.correlationId
+                });
+            });
+        });
+    });
+
+    cnn.queue('getNoOfInProgressRequests_queue', function(q){
+        q.subscribe(function(message, headers, deliveryInfo, m){
+            util.log(util.format( deliveryInfo.routingKey, message));
+            util.log("Message: "+JSON.stringify(message));
+            util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+            organization.noofinprogressrequests(message, function(err,res){
+
+                //return index sent
+                cnn.publish(m.replyTo, res, {
+                    contentType:'application/json',
+                    contentEncoding:'utf-8',
+                    correlationId:m.correlationId
+                });
+            });
+        });
+    });
+
+    cnn.queue('getNoOfCompletedRequests_queue', function(q){
+        q.subscribe(function(message, headers, deliveryInfo, m){
+            util.log(util.format( deliveryInfo.routingKey, message));
+            util.log("Message: "+JSON.stringify(message));
+            util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+            organization.noofcompletedrequests(message, function(err,res){
 
                 //return index sent
                 cnn.publish(m.replyTo, res, {

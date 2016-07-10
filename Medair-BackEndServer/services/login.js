@@ -9,13 +9,13 @@ exports.checkLogin = function(msg, callback) {
 		if (!module.parent)
 			console.log('authenticating %s:%s', msg.email, msg.password);
 
-		var getUser;
-		if(msg.userType === 'customer'){
-			getUser = "select * from customers where email=?";
-		} else if(msg.userType === 'farmer'){
-			getUser = "select * from farmers where email=?";
-		}
-		console.log("Query is:"+getUser);
+		// var getUser;
+		// if(msg.userType === 'customer'){
+		// 	getUser = "select * from customers where email=?";
+		// } else if(msg.userType === 'farmer'){
+		// 	getUser = "select * from farmers where email=?";
+		// }
+		// console.log("Query is:"+getUser);
 		
 		mysql.fetchData(function(err,results){
 			if(err){

@@ -58,10 +58,11 @@ app.get('/signin', index.signIn);
 app.get('/signup', index.signUp);
 app.get('/homepage', login.redirectToHomepage);
 app.get('/logout', login.logout);
-app.get('/getRequestByRefugee', sessionMgmt.restrict,organization.getRequestsByRefugee);
-app.get('/getOrgLocation', sessionMgmt.restrict,organization.getLocations);
+app.get('/getRequestByRefugee', sessionMgmt.restrict,organization.getRequestByRefugee);
+app.get('/getOrgLocation', sessionMgmt.restrict,organization.getO);
 app.get('/getAllRefugees', sessionMgmt.restrict,user.getAll);
-
+app.get('/getNumberOfInProgressRequests', sessionMgmt.restrict,organization.noofinprogressrequests);
+app.get('/getNoOfCompletedRequests', sessionMgmt.restrict,organization.noofcompletedrequests);
 
 //POST
 app.post('/login', login.checkLogin);
