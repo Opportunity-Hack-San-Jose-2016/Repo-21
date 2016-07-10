@@ -67,6 +67,37 @@ exports.getRequestByRefugee = function (msg, callback) {
     });
 };
 
+exports.getLocations = function (msg,callback){
+
+    mongo.connect(mongoURL, function () {
+        var json_responses;
+        console.log('Connected to mongo at: ' + mongoURL);
+        var coll = mongo.collection('Requests');
+        var params = {
+            'orgId': msg.orgId
+        };
+        coll.find(params,{'location':1}).toArray(function (err, result) {
+            var jsonResponse;
+            if (err) {
+                jsonResponse = {'statusCode': 401}
+                callback(null, jsonResponse);
+            } else {
+                jsonResponse = {'statusCode': 200, 'locations': result};
+                callback(null, jsonResponse);
+            }
+        });
+    });
+}
+
+
+
+
+
+
+
+
+
+
 
 
 //Code to Reuse

@@ -59,7 +59,7 @@ app.get('/signup', index.signUp);
 app.get('/homepage', login.redirectToHomepage);
 app.get('/logout', login.logout);
 app.get('/getRequestByRefugee', sessionMgmt.restrict,organization.getRequestsByRefugee);
-
+app.get('/getOrgLocation', sessionMgmt.restrict,organization.getLocations);
 
 
 

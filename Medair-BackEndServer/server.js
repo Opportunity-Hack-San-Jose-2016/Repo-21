@@ -113,12 +113,29 @@ cnn.on('ready', function () {
         });
     });
 
-    nn.queue('getRequestByRefugee_queue', function(q){
+    cnn.queue('getRequestByRefugee_queue', function(q){
         q.subscribe(function(message, headers, deliveryInfo, m){
             util.log(util.format( deliveryInfo.routingKey, message));
             util.log("Message: "+JSON.stringify(message));
             util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
             organization.getRequestByRefugee(message, function(err,res){
+
+                //return index sent
+                cnn.publish(m.replyTo, res, {
+                    contentType:'application/json',
+                    contentEncoding:'utf-8',
+                    correlationId:m.correlationId
+                });
+            });
+        });
+    });
+
+    cnn.queue('getLocations_queue', function(q){
+        q.subscribe(function(message, headers, deliveryInfo, m){
+            util.log(util.format( deliveryInfo.routingKey, message));
+            util.log("Message: "+JSON.stringify(message));
+            util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+            organization.getLocations(message, function(err,res){
 
                 //return index sent
                 cnn.publish(m.replyTo, res, {
