@@ -59,15 +59,15 @@ app.get('/signup', index.signUp);
 app.get('/homepage', login.redirectToHomepage);
 app.get('/logout', login.logout);
 app.get('/getRequestByRefugee', sessionMgmt.restrict,organization.getRequestByRefugee);
-<<<<<<< HEAD
+
 app.get('/getOrgLocation', sessionMgmt.restrict,organization.getO);
 app.get('/getAllRefugees', sessionMgmt.restrict,user.getAll);
 app.get('/getNumberOfInProgressRequests', sessionMgmt.restrict,organization.noofinprogressrequests);
 app.get('/getNoOfCompletedRequests', sessionMgmt.restrict,organization.noofcompletedrequests);
-=======
+
 //app.get('/getOrgLocation', sessionMgmt.restrict,organization.getLocations);
 app.get('/getAllRefugees', sessionMgmt.restrict,user.getAll);
->>>>>>> 2adf90371529ad390aff5d1d5fb1a1b8c010eb3b
+
 
 //POST
 app.post('/login', login.checkLogin);
