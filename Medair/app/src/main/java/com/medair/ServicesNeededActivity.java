@@ -1,11 +1,13 @@
 package com.medair;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.location.Location;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.Telephony;
 import android.support.v7.app.AppCompatActivity;
@@ -17,13 +19,21 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.medair.utils.LocalSettings;
 import com.medair.utils.Utils;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -52,6 +62,8 @@ public class ServicesNeededActivity extends AppCompatActivity implements GoogleA
     private GoogleApiClient mGoogleApiClient;
 
     private Location mLastLocation;
+
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +102,10 @@ public class ServicesNeededActivity extends AppCompatActivity implements GoogleA
                     .addApi(LocationServices.API)
                     .build();
         }
+
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setMessage("Requesting...");
     }
 
     protected void onStart() {
@@ -221,14 +237,15 @@ public class ServicesNeededActivity extends AppCompatActivity implements GoogleA
 
                        textMessageBuilder.append(" " + messageEditText.getText().toString());
 
-//                       if(Utils.isOnline(ServicesNeededActivity.this))
-//                       {
-//                           // TODO call api
-//                       }
-//                       else
-//                       {
+                       if(Utils.isOnline(ServicesNeededActivity.this))
+                       {
+                           mProgressDialog.show();
+                           new RequestHelp(textMessageBuilder.toString()).execute();
+                       }
+                       else
+                       {
                            sendSMS(textMessageBuilder.toString());
-//                       }
+                       }
 
                        messageDialog.dismiss();
                    }
@@ -278,6 +295,119 @@ public class ServicesNeededActivity extends AppCompatActivity implements GoogleA
             smsIntent.setData(Uri.parse("sms:+13347210102"));
             smsIntent.putExtra("sms_body",textMessage);
             startActivity(smsIntent);
+        }
+    }
+
+    private class RequestHelp extends AsyncTask<Void, Void, Void>
+    {
+        private JSONObject parameters = new JSONObject();
+
+        private String message;
+
+        public RequestHelp(String message)
+        {
+            this.message = message;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            try {
+
+//                        'firstName' : req.param('firstName'),
+//                        'lastName' : req.param('lastName'),
+//                        'services' : req.param('services'),
+//                        'phoneNumber' : req.param('phoneNumber'),
+
+                parameters.put("uid", LocalSettings.getUserID(ServicesNeededActivity.this));
+                parameters.put("orgId", "1");
+                parameters.put("organization", "Medair");
+                parameters.put("firstName","Apoorv");
+                parameters.put("phoneNumber", "6692478678");
+                parameters.put("lastName","Patel");
+                parameters.put("message", message);
+
+                JSONArray services = new JSONArray();
+
+                if(cashAssistanceCheckbox.isChecked())
+                    services.put("Healthcare");
+
+                if(medicareCheckBox.isChecked())
+                    services.put("Medicare");
+
+                if(foodCheckBox.isChecked())
+                    services.put("Food");
+
+                if(waterCheckBox.isChecked())
+                    services.put("Water");
+
+                if(housingCheckBox.isChecked())
+                    services.put("Housing");
+
+                if(vaccinationCheckBox.isChecked())
+                    services.put("Vaccination");
+
+                JSONObject locationJson = new JSONObject();
+
+                locationJson.put("lat", String.valueOf(mLastLocation.getLatitude()));
+                locationJson.put("long", String.valueOf(mLastLocation.getLatitude()));
+
+                parameters.put("services", services);
+                parameters.put("location", locationJson);
+
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+
+            }
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            RequestQueue queue = Volley.newRequestQueue(ServicesNeededActivity.this);
+
+            JsonObjectRequest request = new JsonObjectRequest("http://12b1b0a6.ngrok.io/requestHelp", parameters, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        mProgressDialog.hide();
+                        System.err.println("response " + response);
+
+                        if(response.getString("statusCode").equals("200"))
+                        {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(ServicesNeededActivity.this);
+
+                            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+                            View view = inflater.inflate(R.layout.request_sent_dialog, null);
+
+                            builder.setView(view);
+
+                            builder.setPositiveButton("OK", null);
+
+                            builder.create().show();
+                        }
+                        else {
+                            Toast.makeText(ServicesNeededActivity.this, "Oops there was a problem. Please try again.", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    mProgressDialog.hide();
+//                    Toast.makeText(ServicesNeededActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    System.err.println("error "+error.getMessage());
+                }
+            });
+
+            queue.add(request);
+
+            return null;
         }
     }
 }
