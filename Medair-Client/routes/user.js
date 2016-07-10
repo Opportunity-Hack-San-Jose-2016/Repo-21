@@ -12,8 +12,6 @@ exports.signup = function (req, res) {
 };
 
 exports.register = function (req, res) {
-    
-    console.log("In User Register!");
     /*if (req.param('userType') === 'organization') {
         queueName = 'createOrganization_queue';
         var msg_Payload = {
@@ -42,7 +40,6 @@ exports.register = function (req, res) {
             'disability': req.param('disability')
         };
     /*}*/
-    console.log('Create Refugee Queue: '+queueName);
     mq_client.make_request(queueName, msg_Payload, function (err, results) {
         if (err) {
             console.log('Err: ' + err);
