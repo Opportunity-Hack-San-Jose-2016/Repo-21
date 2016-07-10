@@ -370,3 +370,34 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
 .adminSearchInput{
 	float: left;margin-left: 10px;width: 30%;
 }
+
+
+/* Medair Admin Dashboard Styles */
+#logo {
+    background-color: #ec1c23;
+    display: block;
+    float: left;
+    height: 49px;
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+    width: 185px;
+}
+
+.panel-green .panel-heading {
+    background-color: #5cb85c;
+    border-color: #5cb85c;
+    color: #fff;
+}
+
+.panel-yellow .panel-heading {
+    background-color: #f0ad4e;
+    border-color: #f0ad4e;
+    color: #fff;
+}
+
+.panel-red .panel-heading {
+    background-color: #d9534f;
+    border-color: #d9534f;
+    color: #fff;
+}
