@@ -1,6 +1,6 @@
 var mysql = require("./mysql");
 var mongo = require("./mongo");
-var mongoURL = "mongodb://localhost:27017/Medair";
+var mongoURL = "mongodb://localhost:27017/medair";
 var hash = require('./encryption').hash;
 
 exports.createRefugee = function(msg, callback){
@@ -21,28 +21,30 @@ exports.createRefugee = function(msg, callback){
 				var coll = mongo.collection('Refugee');
 				console.log("order creation ");
 				var params = {
-					'uid': msg.uid,
+					'uid': msg.un_id,
 					'firstName': msg.firstName,
 					'lastName': msg.lastName,
+					'email': msg.email,
 					'password': msg.password,
+					'cnfPassword': msg.cnfPassword,
 					'location': msg.location,
-					'city': msg.city,
-					'state': msg.state,
-					'zipcode': msg.zipcode,
 					'gender': msg.gender,
+					'phoneNumber': msg.phoneNumber,
+					'dob': msg.dob,
 					'disability': msg.disability
 				};
+				coll.insert(params, function (err, result) {
+					var jsonResponse;
+					if (err) {
+						jsonResponse = {'statusCode': 401};
+						callback(null, jsonResponse);
+					} else {
+						jsonResponse = {'statusCode': 200};
+						callback(null, jsonResponse);
+					}
+				});
 			});
-			coll.insert(params, function (err, result) {
-				var jsonResponse;
-				if (err) {
-					jsonResponse = {'statusCode': 401}
-					callback(null, jsonResponse);
-				} else {
-					jsonResponse = {'statusCode': 200};
-					callback(null, jsonResponse);
-				}
-			});
+			
 		}
 	});
 };
