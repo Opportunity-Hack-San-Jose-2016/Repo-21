@@ -7,4 +7,11 @@
     <color name="primary_dark">#222222</color>
     <color name="primary_light">#999999</color>
     <color name="primary_blue">#1C75BC</color>
+
+    <color name="cash_assistance_color">#26A65B</color>
+    <color name="medicare_color">#96281B</color>
+    <color name="water_color">#4183D7</color>
+    <color name="food_color">#FDE3A7</color>
+    <color name="housing_color">#D35400</color>
+    <color name="vaccination_color">#6C7A89</color>
 </resources>
