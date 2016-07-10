@@ -36,7 +36,7 @@ exports.createOrganization = function (msg, callback) {
                 coll.insert(params, function (err, result) {
                     var jsonResponse;
                     if (err) {
-                        jsonResponse = {'statusCode': 401}
+                        jsonResponse = {'statusCode': 401};
                         callback(null, jsonResponse);
                     } else {
                         jsonResponse = {'statusCode': 200};

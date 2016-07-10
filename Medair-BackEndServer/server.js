@@ -118,7 +118,7 @@ cnn.on('ready', function () {
             util.log(util.format( deliveryInfo.routingKey, message));
             util.log("Message: "+JSON.stringify(message));
             util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
-            organization.getRequestByRefugee(message, function(err,res){
+            organization.noofnewrequests(message, function(err,res){
 
                 //return index sent
                 cnn.publish(m.replyTo, res, {

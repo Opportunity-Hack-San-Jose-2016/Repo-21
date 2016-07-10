@@ -58,23 +58,16 @@ app.get('/signin', index.signIn);
 app.get('/signup', index.signUp);
 app.get('/homepage', login.redirectToHomepage);
 app.get('/logout', login.logout);
-app.get('/getRequestByRefugee', sessionMgmt.restrict,organization.getRequestsByRefugee);
-app.get('/getOrgLocation', sessionMgmt.restrict,organization.getLocations);
+app.get('/getRequestByRefugee', sessionMgmt.restrict,organization.getRequestByRefugee);
+//app.get('/getOrgLocation', sessionMgmt.restrict,organization.getLocations);
 app.get('/getAllRefugees', sessionMgmt.restrict,user.getAll);
 
 //POST
 app.post('/login', login.checkLogin);
 app.post('/register', user.register);
-app.post('/request',user.request);
+//app.post('/request',user.request);
 
 app.post('/checkLogin', login.checkLogin);
-
-
-//POST
-app.post('/login', login.checkLogin);
-app.post('/register', user.register);
-app.post('/request',user.request);
-
 
 app.use(function (req, res, next) {
     res.render('error');
