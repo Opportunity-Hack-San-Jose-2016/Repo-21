@@ -49,7 +49,7 @@ exports.createOrganization = function (msg, callback) {
     });
 };
 
-exports.noofrequests = function (msg, callback) {
+exports.noofnewrequests = function (msg, callback) {
 
     mongo.connect(mongoURL, function () {
         var json_responses;
@@ -58,13 +58,57 @@ exports.noofrequests = function (msg, callback) {
         var params = {
             'orgId': msg.orgId
         };
-        coll.find(params).toArray(function (err, result) {
+        coll.find({'request_status': 'new'}).count(function (err, result) {
             var jsonResponse;
             if (err) {
-                jsonResponse = {'statusCode': 401}
+                jsonResponse = {'statusCode': 401};
                 callback(null, jsonResponse);
             } else {
-                jsonResponse = {'statusCode': 200, 'noofrequests': result};
+                jsonResponse = {'statusCode': 200, 'noofnewrequests': result};
+                callback(null, jsonResponse);
+            }
+        });
+    });
+};
+
+exports.noofinprogressrequests = function (msg, callback) {
+
+	mongo.connect(mongoURL, function () {
+        var json_responses;
+        console.log('Connected to mongo at: ' + mongoURL);
+        var coll = mongo.collection('Requests');
+        var params = {
+            'orgId': msg.orgId
+        };
+        coll.find({'request_status': 'in progress'}).count(function (err, result) {
+            var jsonResponse;
+            if (err) {
+                jsonResponse = {'statusCode': 401};
+                callback(null, jsonResponse);
+            } else {
+                jsonResponse = {'statusCode': 200, 'noofinprogressrequests': result};
+                callback(null, jsonResponse);
+            }
+        });
+    });
+};
+
+exports.noofcompletedrequests = function (msg, callback) {
+
+	mongo.connect(mongoURL, function () {
+        var json_responses;
+        console.log('Connected to mongo at: ' + mongoURL);
+        var coll = mongo.collection('Requests');
+        var params = {
+            'orgId': msg.orgId
+        };
+        coll.find({'request_status': 'completed'}).count(function (err, result) {
+            var jsonResponse;
+            if (err) {
+                jsonResponse = {'statusCode': 401};
+                callback(null, jsonResponse);
+            } else {
+                jsonResponse = {'statusCode': 200, 'noofcompletedrequests': result};
                 callback(null, jsonResponse);
             }
         });

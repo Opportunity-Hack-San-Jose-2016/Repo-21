@@ -64,7 +64,8 @@ exports.requestHelp = function(msg,callback){
 			'services': msg.services,
 			'location': msg.location,
 			'password': msg.password,
-			'disability':msg.disability
+			'disability':msg.disability,
+			'request_status': 'new'
 		};
 	});
 	coll.insert(params, function (err, result) {
