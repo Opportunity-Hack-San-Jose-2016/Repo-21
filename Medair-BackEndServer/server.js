@@ -4,7 +4,7 @@ var amqp = require('amqp')
 
 var login = require('./services/login');
 
-var customer = require('./services/customer');
+var customer = require('./services/refugee');
 
 var admin   = require('./services/admin');
 
@@ -14,8 +14,8 @@ var mongoSessionConnectURL = "mongodb://localhost:27017/sessions";
 var expressSession = require("express-session");
 var mongoStore = require("connect-mongo")(expressSession);
 var mongo = require('./services/mongo');
-
-
+var organization = require('./services/organization');
+var refugee = require('./services/refugee');
 var app = express();
 
 app.set('port', process.env.PORT || 4100);
@@ -62,12 +62,12 @@ cnn.on('ready', function () {
         });
     });
     
-    cnn.queue('createCustomer_queue', function(q){
+    cnn.queue('createOrganization_queue', function(q){
 		q.subscribe(function(message, headers, deliveryInfo, m){
 			util.log(util.format( deliveryInfo.routingKey, message));
 			util.log("Message: "+JSON.stringify(message));
 			util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
-			customer.createCustomer(message, function(err,res){
+			organization.createOrganization(message, function(err,res){
 
 				//return index sent
 				cnn.publish(m.replyTo, res, {
@@ -79,6 +79,73 @@ cnn.on('ready', function () {
 		});
 	});
 
-    //Create product queue
+    cnn.queue('createRefugee_queue', function(q){
+        q.subscribe(function(message, headers, deliveryInfo, m){
+            util.log(util.format( deliveryInfo.routingKey, message));
+            util.log("Message: "+JSON.stringify(message));
+            util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+            refugee.createRefugee(message, function(err,res){
+
+                //return index sent
+                cnn.publish(m.replyTo, res, {
+                    contentType:'application/json',
+                    contentEncoding:'utf-8',
+                    correlationId:m.correlationId
+                });
+            });
+        });
+    });
+
+    cnn.queue('requestHelp_queue', function(q){
+        q.subscribe(function(message, headers, deliveryInfo, m){
+            util.log(util.format( deliveryInfo.routingKey, message));
+            util.log("Message: "+JSON.stringify(message));
+            util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+            refugee.requestHelp(message, function(err,res){
+
+                //return index sent
+                cnn.publish(m.replyTo, res, {
+                    contentType:'application/json',
+                    contentEncoding:'utf-8',
+                    correlationId:m.correlationId
+                });
+            });
+        });
+    });
+    
+    cnn.queue('noofrequests_queue', function(q){
+        q.subscribe(function(message, headers, deliveryInfo, m){
+            util.log(util.format( deliveryInfo.routingKey, message));
+            util.log("Message: "+JSON.stringify(message));
+            util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+            organization.getRequestByRefugee(message, function(err,res){
+
+                //return index sent
+                cnn.publish(m.replyTo, res, {
+                    contentType:'application/json',
+                    contentEncoding:'utf-8',
+                    correlationId:m.correlationId
+                });
+            });
+        });
+    });
+    
+    cnn.queue('createOrganization_queue', function(q){
+		q.subscribe(function(message, headers, deliveryInfo, m){
+			util.log(util.format( deliveryInfo.routingKey, message));
+			util.log("Message: "+JSON.stringify(message));
+			util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+			organization.createOrganization(message, function(err,res){
+
+				//return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType:'application/json',
+					contentEncoding:'utf-8',
+					correlationId:m.correlationId
+				});
+			});
+		});
+	});
+
   
 });
