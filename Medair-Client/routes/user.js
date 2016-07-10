@@ -175,32 +175,33 @@ exports.getAllVolunteers = function(req, res) {
     });
 };
 
-exports.textRequestService = function(req, res) {
+exports.textRequestService = function(msg_payload) {
 
 	var msg_payload = {
-		'text' : req.param('text'),
-		'phonenumber' : req.param('phonenumber'),
-		'uid' : req.param('uid'),
-		'location' : req.param('location')
+		'text' : msg_payload.text,
+		'phonenumber' : msg_payload.phonenumber,
+		'uid' : msg_payload.uid,
+		'location' : msg_payload.location
 	};
 	mq_client.make_request('textRequestService_queue', msg_Payload, function(
-			err, results) {
+		err, results) {
 		if (err) {
 			console.log('Err: ' + err);
+			throw err;
 			// res.send(results);
-			res.send({
-				'statusCode' : 401
-			});
+//            res.send({
+//                'statusCode' : 401
+//            });
 		} else {
 			if (results.statusCode == 200) {
 				console.log('Successful creation of User!');
-				res.send(results);
+//                res.send(results);
 			} else if (results.statusCode == 402) {
 				console.log('User already exist.');
-				res.send(results);
+//                res.send(results);
 			} else {
 				console.log('Error Occured!');
-				res.send(results);
+//                res.send(results);
 			}
 		}
 	});

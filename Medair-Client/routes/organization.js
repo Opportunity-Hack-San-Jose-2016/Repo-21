@@ -131,3 +131,28 @@ exports.noofcompletedrequests = function (req, res) {
         }
     });
 };
+
+exports.getOrg = function(req,res) {
+
+    msg_payload = {
+        'services': req.param('from')
+    }
+    mq_client.make_request('getOrganisationByServices_queue', msg_Payload, function (err, results) {
+        if (err) {
+            console.log('Err: ' + err);
+            res.send({'statusCode': 402});
+            //throw err;
+        } else {
+            if (results.statusCode == 200) {
+//                console.log('Successful creation of User');
+                res.send(results);
+            } else if (results.statusCode == 402) {
+//                console.log('User already exist.');
+                res.send(results);
+            } else {
+                console.log('Error Occured!');
+                res.send(results);
+            }
+        }
+    });
+};

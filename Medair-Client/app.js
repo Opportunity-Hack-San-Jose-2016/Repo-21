@@ -112,6 +112,8 @@ app.post('/getAllVolunteers',user.getAllVolunteers);
 app.post('/checkLogin', login.checkLogin);
 app.get('/testAdmin', index.adminDashboard);
 
+app.post('/category',sessionMgmt.restrict,organization.getOrg);
+
 app.use(function (req, res, next) {
     res.render('error');
 });
