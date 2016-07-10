@@ -137,5 +137,25 @@ exports.getLocations = function(msg,callback){
 };
 
 
+exports.getOrganisationByServices = function(msg,callback){
+    mongo.connect(mongoURL, function () {
+        var json_responses;
+        console.log('Connected to mongo at: ' + mongoURL);
+        var coll = mongo.collection('Organizations');
+        var params = {
+            'services': msg.services
+        };
+        coll.find(params,{'services':1}).toArray(function (err, result) {
+            var jsonResponse;
+            if (err) {
+                jsonResponse = {'statusCode': 401};
+                callback(null, jsonResponse);
+            } else {
+                jsonResponse = {'statusCode': 200, 'Locations': result};
+                callback(null, jsonResponse);
+            }
+        });
+    });
+};
 
 
