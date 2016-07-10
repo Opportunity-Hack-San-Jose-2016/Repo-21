@@ -112,8 +112,8 @@ cnn.on('ready', function () {
             });
         });
     });
-    
-    cnn.queue('noofrequests_queue', function(q){
+
+    cnn.queue('getRequestByRefugee_queue', function(q){
         q.subscribe(function(message, headers, deliveryInfo, m){
             util.log(util.format( deliveryInfo.routingKey, message));
             util.log("Message: "+JSON.stringify(message));
@@ -129,23 +129,39 @@ cnn.on('ready', function () {
             });
         });
     });
-    
-    cnn.queue('createOrganization_queue', function(q){
-		q.subscribe(function(message, headers, deliveryInfo, m){
-			util.log(util.format( deliveryInfo.routingKey, message));
-			util.log("Message: "+JSON.stringify(message));
-			util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
-			organization.createOrganization(message, function(err,res){
 
-				//return index sent
-				cnn.publish(m.replyTo, res, {
-					contentType:'application/json',
-					contentEncoding:'utf-8',
-					correlationId:m.correlationId
-				});
-			});
-		});
-	});
+    cnn.queue('getLocations_queue', function(q){
+        q.subscribe(function(message, headers, deliveryInfo, m){
+            util.log(util.format( deliveryInfo.routingKey, message));
+            util.log("Message: "+JSON.stringify(message));
+            util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+            organization.getLocations(message, function(err,res){
 
+                //return index sent
+                cnn.publish(m.replyTo, res, {
+                    contentType:'application/json',
+                    contentEncoding:'utf-8',
+                    correlationId:m.correlationId
+                });
+            });
+        });
+    });
+
+    cnn.queue('getAllRefugees_queue', function(q){
+        q.subscribe(function(message, headers, deliveryInfo, m){
+            util.log(util.format( deliveryInfo.routingKey, message));
+            util.log("Message: "+JSON.stringify(message));
+            util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+            refugee.getAll(message, function(err,res){
+
+                //return index sent
+                cnn.publish(m.replyTo, res, {
+                    contentType:'application/json',
+                    contentEncoding:'utf-8',
+                    correlationId:m.correlationId
+                });
+            });
+        });
+    });
   
 });
