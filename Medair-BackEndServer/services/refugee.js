@@ -1,6 +1,6 @@
 var mysql = require("./mysql");
 var mongo = require("./mongo");
-var mongoURL = "mongodb://localhost:27017/MedAir";
+var mongoURL = "mongodb://localhost:27017/Medair";
 var hash = require('./encryption').hash;
 
 exports.createRefugee = function(msg, callback){
@@ -57,7 +57,7 @@ exports.requestHelp = function(msg,callback){
 		console.log("order creation ");
 		var params = {
 			'uid': msg.uid,
-			'ordId': msg.orgId,
+			'orgId': msg.orgId,
 			'organization':msg.organization,
 			'firstName':msg.firstName,
 			'lastName':msg.lastName,
