@@ -177,6 +177,7 @@ exports.getAllVolunteers = function(req, res) {
 
 exports.textRequestService = function(msg_payload) {
 
+	console.log("Here");
 	var msg_payload = {
 		'text' : msg_payload.text,
 		'phonenumber' : msg_payload.phonenumber,

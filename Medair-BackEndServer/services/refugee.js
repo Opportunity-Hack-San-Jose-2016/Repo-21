@@ -84,6 +84,7 @@ exports.requestHelp = function (msg, callback) {
                 jsonResponse = {
                     'statusCode': 200
                 };
+                console.log(result);
                 callback(null, jsonResponse);
             }
         });
@@ -124,6 +125,7 @@ exports.textRequestService = function (msg, callback) {
                     'message': textRequest.message
                 };
 
+                console.log("Inserting: "+requestObject);
                 var coll1 = mongo.collection('HelpRequests');
                 coll.insert(requestObject, function (err, result) {
                     if (err) {

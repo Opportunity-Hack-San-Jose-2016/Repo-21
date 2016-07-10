@@ -20,9 +20,9 @@ var mongoSessionConnectURL = "mongodb://localhost:27017/medair";
 var expressSession = require("express-session");
 var mongoStore = require("connect-mongo")(expressSession);
 var mongo = require("./routes/mongo");
-var accountSid = 'ACdf220eed249fa26c2278f9e0070a517a';
-var YOUR_TWILIO_AUTH_TOKEN = 'e890820cde48d5f34306f7b155a18abd';
-var twilioNumber = '+13347210102';
+var accountSid = '[SID key]';
+var YOUR_TWILIO_AUTH_TOKEN = '[authentication tocken]';
+var twilioNumber = '[Twilio phone number]';
 twilio = require('twilio');
 
 var app = express();
