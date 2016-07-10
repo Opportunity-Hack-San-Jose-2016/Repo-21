@@ -12,19 +12,7 @@ exports.signup = function (req, res) {
 };
 
 exports.register = function (req, res) {
-    /*if (req.param('userType') === 'organization') {
-        queueName = 'createOrganization_queue';
-        var msg_Payload = {
-            'orgId': req.param('id'),
-            'services': req.param('services'),
-            'locations': req.param('locations'),
-            'password': req.param('password'),
-            'location': req.param('location'),
-            'contactPerson': req.param('contactPerson'),
-            'number': req.param('number')
-        };
-    } else {*/
-	
+    
         var queueName = 'createRefugee_queue';
         var msg_Payload = {
             'un_id': req.param('un_id'),
@@ -39,7 +27,6 @@ exports.register = function (req, res) {
             'gender': req.param('gender'),
             'disability': req.param('disability')
         };
-    /*}*/
     mq_client.make_request(queueName, msg_Payload, function (err, results) {
         if (err) {
             console.log('Err: ' + err);
@@ -58,6 +45,44 @@ exports.register = function (req, res) {
             }
         }
     });
+};
+
+exports.volunteer_register = function (req, res) {
+    
+    var queueName = 'createVolunteer_queue';
+    var msg_Payload = {
+        'un_id': req.param('un_id'),
+        'firstName': req.param('firstName'),
+        'lastName': req.param('lastName'),
+        'email': req.param('email'),
+        'address': req.param('address'),
+        'city': req.param('city'),
+        'zipcode': req.param('zipcode'),
+        'country': req.param('country'),
+        'phoneNumber': req.param('phoneNumber'),
+        'password': req.param('password'),
+        'cnfPassword': req.param('cnfPassword'),
+        'dob': req.param('dob'),
+        'gender': req.param('gender'),
+    };
+mq_client.make_request(queueName, msg_Payload, function (err, results) {
+    if (err) {
+        console.log('Err: ' + err);
+        res.send(results);
+        //throw err;
+    } else {
+        if (results.statusCode == 200) {
+            console.log('Successful creation of User!');
+            res.send(results);
+        } else if (results.statusCode == 402) {
+            console.log('User already exist.');
+            res.send(results);
+        } else {
+            console.log('Error Occured!');
+            res.send(results);
+        }
+    }
+});
 };
 
 exports.requestHelp = function (req, res) {

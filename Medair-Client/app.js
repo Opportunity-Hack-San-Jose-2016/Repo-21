@@ -72,9 +72,15 @@ app.get('/getAllRefugees', sessionMgmt.restrict,user.getAll);
 //POST
 app.post('/login', login.checkLogin);
 app.post('/register', user.register);
+app.get('/volunteer_register', user.volunteer_register);
 //app.post('/request',user.request);
 
 app.post('/checkLogin', login.checkLogin);
+
+
+app.get('/testAdmin', function (req, res, next){
+	res.render('adminDashboard');
+});
 
 app.use(function (req, res, next) {
     res.render('error');
