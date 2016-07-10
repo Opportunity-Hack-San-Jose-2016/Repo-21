@@ -24,6 +24,8 @@ public class LoginActivity extends AppCompatActivity {
 
         unIdEditText = (EditText) findViewById(R.id.unid_edit_text);
 
+        setTitle("Sign In");
+
         setupSignUpButton();
         setupSignInButton();
     }
