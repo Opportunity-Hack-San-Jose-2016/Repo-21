@@ -1,6 +1,6 @@
 var mysql = require("./mysql");
 var mongo = require("./mongo");
-var mongoURL = "mongodb://localhost:27017/Amazonfresh";
+var mongoURL = "mongodb://localhost:27017/Medair";
 var hash = require('./encryption').hash;
 
 exports.createOrganization = function (msg, callback) {

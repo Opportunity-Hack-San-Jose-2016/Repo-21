@@ -58,11 +58,11 @@ exports.register = function (req, res) {
     });
 };
 
-exports.request = function (req, res) {
+exports.requestHelp = function (req, res) {
 
         var msg_Payload = {
             'uid': req.param('uid'),
-            'ordId': req.param('orgId'),
+            'orgId': req.param('orgId'),
             'organization':req.param('organization'),
             'firstName':req.param('firstName'),
             'lastName':req.param('lastName'),
@@ -71,7 +71,7 @@ exports.request = function (req, res) {
             'password': req.param('password'),
             'disability':req.param('disability')
         };
-    mq_client.make_request(requestHelp_queue, msg_Payload, function (err, results) {
+    mq_client.make_request('requestHelp_queue', msg_Payload, function (err, results) {
         if (err) {
             console.log('Err: ' + err);
             res.send(results);

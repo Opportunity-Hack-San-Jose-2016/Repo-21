@@ -4,7 +4,7 @@ var ejs = require("ejs");
 exports.getRequestByRefugee = function (req, res) {
 
     var msg_Payload = {
-        'ordId': req.param('orgId'),
+        'orgId': req.param('orgId'),
     };
 
     mq_client.make_request('getRequestByRefugee_queue', msg_Payload, function (err, results) {
