@@ -89,7 +89,7 @@ exports.requestHelp = function(msg, callback) {
 		}
 	});
 
-}
+};
 
 exports.textRequestService = function(msg, callback) {
 
