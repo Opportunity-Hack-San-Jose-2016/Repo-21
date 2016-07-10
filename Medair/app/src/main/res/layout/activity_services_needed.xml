@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.medair.ServicesNeededActivity">
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/services_list_view"
+        android:layout_marginLeft="@dimen/padding_8dp"
+        android:layout_marginRight="@dimen/padding_8dp"
+        android:layout_marginTop="@dimen/padding_8dp"></ListView>
+
+    <Button
+        android:id="@+id/submit_button"
+        style="?android:textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/colorPrimaryDark"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="@dimen/padding_8dp"
+        android:text="Submit"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
+
+</LinearLayout>
