@@ -12,7 +12,7 @@ exports.signup = function (req, res) {
 };
 
 exports.register = function (req, res) {
-    if (req.param('userType') === 'organization') {
+    /*if (req.param('userType') === 'organization') {
         queueName = 'createOrganization_queue';
         var msg_Payload = {
             'orgId': req.param('id'),
@@ -23,21 +23,23 @@ exports.register = function (req, res) {
             'contactPerson': req.param('contactPerson'),
             'number': req.param('number')
         };
-    } else {
+    } else {*/
+	
         var queueName = 'createRefugee_queue';
         var msg_Payload = {
-            'uid': req.param('uid'),
+            'un_id': req.param('un_id'),
             'firstName': req.param('firstName'),
             'lastName': req.param('lastName'),
-            'password': req.param('password'),
+            'email': req.param('email'),
             'location': req.param('location'),
-            'city': req.param('city'),
-            'state': req.param('state'),
-            'zipcode': req.param('zipcode'),
-            'Gender': req.param('gender'),
-            'Disability': req.param('disability')
+            'phoneNumber': req.param('phoneNumber'),
+            'password': req.param('password'),
+            'cnfPassword': req.param('cnfPassword'),
+            'dob': req.param('dob'),
+            'gender': req.param('gender'),
+            'disability': req.param('disability')
         };
-    }
+    /*}*/
     mq_client.make_request(queueName, msg_Payload, function (err, results) {
         if (err) {
             console.log('Err: ' + err);

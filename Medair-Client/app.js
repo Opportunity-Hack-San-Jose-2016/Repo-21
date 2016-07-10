@@ -15,7 +15,7 @@ var express = require('express')
     ,organization = require('./routes/organization');
 
 //URL for the sessions collections in mongoDB
-var mongoSessionConnectURL = "mongodb://localhost:27017/Amazonfresh";
+var mongoSessionConnectURL = "mongodb://localhost:27017/medair";
 var expressSession = require("express-session");
 var mongoStore = require("connect-mongo")(expressSession);
 var mongo = require("./routes/mongo");
@@ -59,12 +59,18 @@ app.get('/signup', index.signUp);
 app.get('/homepage', login.redirectToHomepage);
 app.get('/logout', login.logout);
 app.get('/getRequestByRefugee', sessionMgmt.restrict,organization.getRequestByRefugee);
+
+app.get('/getOrgLocation', sessionMgmt.restrict,organization.getO);
+app.get('/getAllRefugees', sessionMgmt.restrict,user.getAll);
+app.get('/getNumberOfInProgressRequests', sessionMgmt.restrict,organization.noofinprogressrequests);
+app.get('/getNoOfCompletedRequests', sessionMgmt.restrict,organization.noofcompletedrequests);
+
 //app.get('/getOrgLocation', sessionMgmt.restrict,organization.getLocations);
 app.get('/getAllRefugees', sessionMgmt.restrict,user.getAll);
 
 //POST
 app.post('/login', login.checkLogin);
-app.post('/register', user.register);
+app.get('/register', user.register);
 //app.post('/request',user.request);
 
 app.post('/checkLogin', login.checkLogin);
