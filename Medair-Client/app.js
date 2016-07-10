@@ -71,7 +71,7 @@ app.get('/getAllRefugees', sessionMgmt.restrict,user.getAll);
 
 //POST
 app.post('/login', login.checkLogin);
-app.post('/register', user.register);
+app.get('/register', user.register);
 //app.post('/request',user.request);
 
 app.post('/checkLogin', login.checkLogin);
@@ -88,3 +88,5 @@ mongo.connect(mongoSessionConnectURL, function () {
         console.log('Express server listening on port ' + app.get('port'));
     });
 });
+
+//
