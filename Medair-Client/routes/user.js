@@ -70,8 +70,7 @@ exports.requestHelp = function (req, res) {
         'lastName': req.param('lastName'),
         'services': req.param('services'),
         'location': req.param('locations'),
-        'password': req.param('password'),
-        'disability': req.param('disability')
+        
     };
     mq_client.make_request('requestHelp_queue', msg_Payload, function (err, results) {
         if (err) {
@@ -80,14 +79,11 @@ exports.requestHelp = function (req, res) {
             //throw err;
         } else {
             if (results.statusCode == 200) {
-                console.log('Successful creation of User!');
-                res.send(results);
-            } else if (results.statusCode == 402) {
-                console.log('User already exist.');
+                console.log('Successful requested help for User!');
                 res.send(results);
             } else {
                 console.log('Error Occured!');
-                res.send(results);
+                
             }
         }
     });
