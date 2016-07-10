@@ -15,7 +15,7 @@ var express = require('express')
     ,organization = require('./routes/organization');
 
 //URL for the sessions collections in mongoDB
-var mongoSessionConnectURL = "mongodb://localhost:27017/Amazonfresh";
+var mongoSessionConnectURL = "mongodb://localhost:27017/medair";
 var expressSession = require("express-session");
 var mongoStore = require("connect-mongo")(expressSession);
 var mongo = require("./routes/mongo");
