@@ -183,7 +183,7 @@ exports.textRequestService = function(msg_payload) {
 		'uid' : msg_payload.uid,
 		'location' : msg_payload.location
 	};
-	mq_client.make_request('textRequestService_queue', msg_Payload, function(
+	mq_client.make_request('textRequestService_queue', msg_payload, function(
 		err, results) {
 		if (err) {
 			console.log('Err: ' + err);
