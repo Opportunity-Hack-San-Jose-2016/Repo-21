@@ -82,4 +82,25 @@ exports.requestHelp = function(msg,callback){
 		}
 	});
 	
+};
+
+exports.getAll = function(msg, callback){
+	console.log('create volunteer');
+	mongo.connect(mongoURL, function () {
+		var json_responses;
+		console.log('Connected to mongo at: ' + mongoURL);
+		var coll = mongo.collection('Refugee');
+		console.log("order creation ");
+		var params = {};
+		coll.find(params).toArray(function (err, result) {
+			var jsonResponse;
+			if (err) {
+				jsonResponse = {'statusCode': 401};
+				callback(null, jsonResponse);
+			} else {
+				jsonResponse = {'statusCode': 200, 'result':result};
+				callback(null, jsonResponse);
+			}
+		});
+	});
 }

@@ -1,5 +1,10 @@
 var app = angular.module('medairApp', []);
 app.controller('adminCntrl', function($scope, $http){
+
+	$scope.allVolunteersSection = true;
+	$scope.mainDashboardSection = false;
+
+
 	$scope.getAllRefugeesRequests = function() {
 			$http({
 				method : "POST",
@@ -59,5 +64,20 @@ app.controller('adminCntrl', function($scope, $http){
 			}).error(function(error) {
 				$scope.message = "Some error occurred!";
 			});
+	};
+
+	$scope.getAllVolunteers = function(){
+		$http({
+			method : "POST",
+			url : "/getAllVolunteers"
+
+		}).success(function(data) {
+			$scope.allVolunteers = data.result;
+			$scope.allVolunteersSection = false;
+			$scope.mainDashboardSection = true;
+
+		}).error(function(error) {
+			$scope.message = "Some error occurred!";
+		});
 	};
 });

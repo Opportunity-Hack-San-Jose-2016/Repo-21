@@ -56,6 +56,7 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.get('/signin', index.signIn);
 app.get('/signup', index.signUp);
+app.get('/volunteer_signup', index.volunteer_signUp);
 app.get('/homepage', login.redirectToHomepage);
 app.get('/logout', login.logout);
 app.get('/getRequestByRefugee', sessionMgmt.restrict,organization.getRequestByRefugee);
@@ -67,12 +68,13 @@ app.get('/getNoOfCompletedRequests', sessionMgmt.restrict,organization.noofcompl
 
 //app.get('/getOrgLocation', sessionMgmt.restrict,organization.getLocations);
 app.get('/getAllRefugees', sessionMgmt.restrict,user.getAll);
-
+app.post('/getAllRefugeesRequests', user.getAll);
 
 //POST
 app.post('/login', login.checkLogin);
 app.post('/register', user.register);
-app.get('/volunteer_register', user.volunteer_register);
+app.post('/volunteer_register', user.volunteer_register);
+app.post('/getAllVolunteers', user.getAllVolunteers);
 //app.post('/request',user.request);
 
 app.post('/checkLogin', login.checkLogin);

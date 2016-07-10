@@ -3,8 +3,8 @@ var mongo = require("./mongo");
 var mongoURL = "mongodb://localhost:27017/medair";
 var hash = require('./encryption').hash;
 
-exports.createRefugee = function(msg, callback){
-
+exports.createVolunteer = function(msg, callback){
+	console.log('create volunteer');
 			mongo.connect(mongoURL, function () {
 				var json_responses;
 				console.log('Connected to mongo at: ' + mongoURL);
@@ -37,36 +37,23 @@ exports.createRefugee = function(msg, callback){
 			});
 };
 
-
-exports.requestHelp = function(msg,callback){
-
+exports.getAllVolunteers = function(msg, callback){
+	console.log('create volunteer');
 	mongo.connect(mongoURL, function () {
 		var json_responses;
 		console.log('Connected to mongo at: ' + mongoURL);
-		var coll = mongo.collection('HelpRequests');
+		var coll = mongo.collection('Volunteer');
 		console.log("order creation ");
-		var params = {
-			'uid': msg.uid,
-			'orgId': msg.orgId,
-			'organization':msg.organization,
-			'firstName':msg.firstName,
-			'lastName':msg.lastName,
-			'services': msg.services,
-			'location': msg.location,
-			'password': msg.password,
-			'disability':msg.disability,
-			'request_status': 'new'
-		};
+		var params = {};
+		coll.find(params).toArray(function (err, result) {
+			var jsonResponse;
+			if (err) {
+				jsonResponse = {'statusCode': 401};
+				callback(null, jsonResponse);
+			} else {
+				jsonResponse = {'statusCode': 200, 'result':result};
+				callback(null, jsonResponse);
+			}
+		});
 	});
-	coll.insert(params, function (err, result) {
-		var jsonResponse;
-		if (err) {
-			jsonResponse = {'statusCode': 401}
-			callback(null, jsonResponse);
-		} else {
-			jsonResponse = {'statusCode': 200};
-			callback(null, jsonResponse);
-		}
-	});
-	
-}
+};
