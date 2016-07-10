@@ -27,5 +27,7 @@ public class SignupActivity extends AppCompatActivity {
         phoneNumberEditText = (EditText) findViewById(R.id.phone_number_edit_text);
         dobEditText = (EditText) findViewById(R.id.dob_edit_text);
         disabilityEditText = (EditText) findViewById(R.id.disability_edit_text);
+
+        setTitle("Sign Up");
     }
 }
