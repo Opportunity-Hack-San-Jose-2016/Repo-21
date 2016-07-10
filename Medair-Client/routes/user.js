@@ -205,3 +205,26 @@ exports.textRequestService = function(req, res) {
 		}
 	});
 };
+
+exports.getAllRefugeesRequests = function(req, res) {
+	var msg_Payload = {};
+	mq_client.make_request('getAllRefugeesRequests_queue', msg_Payload, function(err,
+																		 results) {
+		if (err) {
+			console.log('Err: ' + err);
+			res.send(results);
+			// throw err;
+		} else {
+			if (results.statusCode == 200) {
+				console.log('Got all help requests!');
+				res.send(results);
+			} else if (results.statusCode == 402) {
+				console.log('User already exist.');
+				res.send(results);
+			} else {
+				console.log('Error Occured!');
+				res.send(results);
+			}
+		}
+	});
+};

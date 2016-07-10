@@ -75,6 +75,7 @@ app.post('/register', user.register);
 app.post('/volunteer_register', user.volunteer_register);
 app.post('/textRequestService',user.textRequestService);
 app.post('/requestHelp',user.requestHelp);
+app.post('/getAllRefugeesRequests',user.getAllRefugeesRequests);
 //app.post('/request',user.request);
 
 app.post('/checkLogin', login.checkLogin);

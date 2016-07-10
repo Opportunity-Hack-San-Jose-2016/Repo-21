@@ -96,7 +96,7 @@ exports.textRequestService = function(msg, callback) {
 	mongo.connect(mongoURL, function() {
 		var json_responses;
 		console.log('Connected to mongo at: ' + mongoURL);
-		var coll = mongo.collection('Refugees');
+		var coll = mongo.collection('HelpRequests');
 		var textRequest = {
 			'text' : msg.text,
 			'phonenumber' : msg.phonenumber,
@@ -146,6 +146,28 @@ exports.getAll = function(msg, callback){
 		var json_responses;
 		console.log('Connected to mongo at: ' + mongoURL);
 		var coll = mongo.collection('Refugee');
+		console.log("order creation ");
+		var params = {};
+		coll.find(params).toArray(function (err, result) {
+			var jsonResponse;
+			if (err) {
+				jsonResponse = {'statusCode': 401};
+				callback(null, jsonResponse);
+			} else {
+				jsonResponse = {'statusCode': 200, 'result':result};
+				callback(null, jsonResponse);
+			}
+		});
+	});
+};
+
+
+exports.getAllHelpRequests = function(msg, callback){
+	console.log('create volunteer');
+	mongo.connect(mongoURL, function () {
+		var json_responses;
+		console.log('Connected to mongo at: ' + mongoURL);
+		var coll = mongo.collection('HelpRequests');
 		console.log("order creation ");
 		var params = {};
 		coll.find(params).toArray(function (err, result) {
