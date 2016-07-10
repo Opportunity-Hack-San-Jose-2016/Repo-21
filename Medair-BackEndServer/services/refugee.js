@@ -41,7 +41,6 @@ exports.createRefugee = function(msg, callback){
 						callback(null, jsonResponse);
 					} else {
 						jsonResponse = {'statusCode': 200};
-						console.log(result)
 						callback(null, jsonResponse);
 					}
 				});
