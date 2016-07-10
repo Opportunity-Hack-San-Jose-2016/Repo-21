@@ -131,3 +131,30 @@ exports.noofcompletedrequests = function (req, res) {
         }
     });
 };
+
+exports.getOrganisationByServices = function (req, res) {
+
+    var jsonResponse;
+    var msg_Payload = {
+        'services': req.param('services')
+    };
+
+    mq_client.make_request('getOrganisationByServices_queue', msg_Payload, function (err, results) {
+        if (err) {
+            console.log('Err: ' + err);
+            res.send({'statusCode': 402});
+            //throw err;
+        } else {
+            if (results.statusCode == 200) {
+                console.log('Success: orgs by services!');
+                res.send(results);
+            } else if (results.statusCode == 402) {
+                console.log('Error: User already exist.');
+                res.send(results);
+            } else {
+                console.log('Error Occured!');
+                res.send(results);
+            }
+        }
+    });
+};

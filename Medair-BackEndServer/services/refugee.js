@@ -1,6 +1,6 @@
 var mysql = require("./mysql");
 var mongo = require("./mongo");
-var mongoURL = "mongodb://localhost:27017/Medair";
+var mongoURL = "mongodb://localhost:27017/medair";
 var hash = require('./encryption').hash;
 
 exports.createRefugee = function(msg, callback){
