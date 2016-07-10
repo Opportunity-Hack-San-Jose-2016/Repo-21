@@ -4,14 +4,16 @@
  */
 
 var express = require('express')
-  , routes = require('./routes')
-  , http = require('http')
-  , path = require('path')
-  , index = require('./routes/index')
-  , login = require('./routes/login')
-  , customer = require('./routes/customer')
-  , sessionMgmt = require('./routes/sessionMgmt')
-  , admin = require('./routes/admin');
+    , routes = require('./routes')
+    , http = require('http')
+    , path = require('path')
+    , index = require('./routes/index')
+    , login = require('./routes/login')
+    , customer = require('./routes/customer')
+    , sessionMgmt = require('./routes/sessionMgmt')
+    , admin = require('./routes/admin')
+    , user = require('./routes/user')
+    ,organization = require('./routes/organization');
 
 //URL for the sessions collections in mongoDB
 var mongoSessionConnectURL = "mongodb://localhost:27017/Amazonfresh";
@@ -22,14 +24,14 @@ var mongo = require("./routes/mongo");
 var app = express();
 
 app.use(expressSession({
-	secret: 'opportunityHack_teststring',
-	resave: false,  //don't save session if unmodified
-	saveUninitialized: false,	// don't create session until something stored
-	duration: 30 * 60 * 1000,    
-	activeDuration: 5 * 60 * 1000,
-	store: new mongoStore({
-		url: mongoSessionConnectURL
-	})
+    secret: 'opportunityHack_teststring',
+    resave: false,  //don't save session if unmodified
+    saveUninitialized: false,	// don't create session until something stored
+    duration: 30 * 60 * 1000,
+    activeDuration: 5 * 60 * 1000,
+    store: new mongoStore({
+        url: mongoSessionConnectURL
+    })
 }));
 
 // all environments
@@ -46,17 +48,29 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
 if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
+    app.use(express.errorHandler());
 }
 
 
 //GET
 // Customer Module
-app.get('/', routes.index); 
-app.get('/signin',index.signIn);
+app.get('/', routes.index);
+app.get('/signin', index.signIn);
 app.get('/signup', index.signUp);
 app.get('/homepage', login.redirectToHomepage);
 app.get('/logout', login.logout);
+app.get('/getRequestByRefugee', sessionMgmt.restrict,organization.getRequestsByRefugee);
+app.get('/getOrgLocation', sessionMgmt.restrict,organization.getLocations);
+app.get('/getAllRefugees', sessionMgmt.restrict,user.getAll);
+
+
+//POST
+app.post('/login', login.checkLogin);
+app.post('/register', user.register);
+app.post('/request',user.request);
+
+
+app.post('/checkLogin', login.checkLogin);
 
 app.use(function(req, res, next) {
 	res.render('error');
