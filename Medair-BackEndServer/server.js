@@ -16,6 +16,7 @@ var mongoStore = require("connect-mongo")(expressSession);
 var mongo = require('./services/mongo');
 var organization = require('./services/organization');
 var refugee = require('./services/refugee');
+var volunteer = require('./services/volunteer');
 var app = express();
 
 app.set('port', process.env.PORT || 4100);
@@ -86,6 +87,42 @@ cnn.on('ready', function () {
             util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
             refugee.createRefugee(message, function(err,res){
 
+                //return index sent
+                cnn.publish(m.replyTo, res, {
+                    contentType:'application/json',
+                    contentEncoding:'utf-8',
+                    correlationId:m.correlationId
+                });
+            });
+        });
+    });
+    
+    cnn.queue('createVolunteer_queue', function(q){
+
+        q.subscribe(function(message, headers, deliveryInfo, m){
+            util.log(util.format( deliveryInfo.routingKey, message));
+            util.log("Message: "+JSON.stringify(message));
+            util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+            volunteer.createVolunteer(message, function(err,res){
+                console.log('inside create volunteer');
+                //return index sent
+                cnn.publish(m.replyTo, res, {
+                    contentType:'application/json',
+                    contentEncoding:'utf-8',
+                    correlationId:m.correlationId
+                });
+            });
+        });
+    });
+
+    cnn.queue('getAllVolunteers_queue', function(q){
+
+        q.subscribe(function(message, headers, deliveryInfo, m){
+            util.log(util.format( deliveryInfo.routingKey, message));
+            util.log("Message: "+JSON.stringify(message));
+            util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+            volunteer.getAllVolunteers(message, function(err,res){
+                console.log('inside create volunteer');
                 //return index sent
                 cnn.publish(m.replyTo, res, {
                     contentType:'application/json',
@@ -231,5 +268,38 @@ cnn.on('ready', function () {
             });
         });
     });
-  
+    
+    cnn.queue('textRequestServices_queue', function(q){
+        q.subscribe(function(message, headers, deliveryInfo, m){
+            util.log(util.format( deliveryInfo.routingKey, message));
+            util.log("Message: "+JSON.stringify(message));
+            util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+            refugee.textRequestService(message, function(err,res){
+
+                //return index sent
+                cnn.publish(m.replyTo, res, {
+                    contentType:'application/json',
+                    contentEncoding:'utf-8',
+                    correlationId:m.correlationId
+                });
+            });
+        });
+    });
+
+    cnn.queue('getAllRefugeesRequests_queue', function(q){
+        q.subscribe(function(message, headers, deliveryInfo, m){
+            util.log(util.format( deliveryInfo.routingKey, message));
+            util.log("Message: "+JSON.stringify(message));
+            util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+            refugee.getAllHelpRequests(message, function(err,res){
+
+                //return index sent
+                cnn.publish(m.replyTo, res, {
+                    contentType:'application/json',
+                    contentEncoding:'utf-8',
+                    correlationId:m.correlationId
+                });
+            });
+        });
+    });
 });

@@ -30,10 +30,10 @@ exports.checkLogin = function (req, res) {
         var json_responses;
         var uid = req.param("uid");
         var pass = req.param("password");
-        var userType = req.param("userType");
+        console.log("uid is: "+uid);
         if (!module.parent)
             console.log('authenticating %s:%s', uid, pass);
-        var msg_payload = {"uid": uid, "password": pass, "userType": userType};
+        var msg_payload = {"uid": uid, "password": pass};
         mq_client.make_request('checkLogin_queue', msg_payload, function (err, results) {
             console.log(results);
             if (err) {
@@ -42,8 +42,7 @@ exports.checkLogin = function (req, res) {
             else {
                 if (results.statusCode === 200) {
                     console.log("valid Login");
-                    req.session.user = results.userObj;
-                    req.session.userType = results.userType;
+                    req.session.user = results.uid;
                     res.send(results);
                 }
                 else {

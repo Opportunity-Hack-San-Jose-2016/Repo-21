@@ -34,16 +34,21 @@
     <div id="signup-page">
       <div class="container">
       
-          <form class="form-login" action="/register" method="post">
-            <h2 class="form-login-heading">sign up now</h2>
+          <form class="form-login" action="/volunteer_register" method="post">
+            <h2 class="form-login-heading">sign up as volunteer</h2>
             <div class="login-wrap">
-                <input type="text" class="form-control" placeholder="UN ID" name="un_id" autofocus required>
-               <br>
+                
                <input type="text" class="form-control" placeholder="First Name" name="firstName">
                 <br>
                <input type="text" class="form-control" placeholder="Last Name" name="lastName">
                 <br>
-               <input type="text" class="form-control" placeholder="Address/Location" name="location" required>
+               <input type="text" class="form-control" placeholder="Address" name="address" required>
+               <br>
+               <input type="text" class="form-control" placeholder="City" name="city" required>
+               <br>
+               <input type="text" class="form-control" placeholder="Zipcode" name="zipcode" required>
+                <br>
+               <input type="text" class="form-control" placeholder="Country" name="country" required>
                <br>
                <input type="text" class="form-control" placeholder="Phone Number" name="phoneNumber">
                <br>
@@ -60,13 +65,7 @@
                   <input type="radio" name="gender" class="custom_gender" style="margin-left: 10px; margin-right: 10px;" value="female"> Female
                  <input type="radio" name="gender" class="custom_gender" style="margin-left: 10px; margin-right: 10px;" value="other"> Other
                <br>
-               <br>
-               <select class="form-control" name="disability">
-                   <option value="" disabled selected hidden>Disabled</option>
-                   <option value="yes">Yes</option>
-                   <option value="no">No</option>
-               </select>
-               <br>
+                   <br>
                 
                 <button class="btn btn-theme btn-block" type="submit"><i class="fa fa-lock"></i> REGISTER</button>
                 <hr>

@@ -3,20 +3,197 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.medair.ServicesNeededActivity">
 
-    <ListView
+    <!--<ListView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="0dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:id="@+id/services_list_view"-->
+    <!--android:layout_marginLeft="@dimen/padding_8dp"-->
+    <!--android:layout_marginRight="@dimen/padding_8dp"-->
+    <!--android:layout_marginTop="@dimen/padding_8dp"></ListView>-->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:id="@+id/services_list_view"
-        android:layout_marginLeft="@dimen/padding_8dp"
-        android:layout_marginRight="@dimen/padding_8dp"
-        android:layout_marginTop="@dimen/padding_8dp"></ListView>
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/cash_assistance_textview"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="Cash Assistance"
+                android:textSize="18dp"
+                android:textColor="@android:color/white"
+                android:background="@color/cash_assistance_color"
+                android:textStyle="bold"/>
+
+            <CheckBox
+                android:id="@+id/cash_assistance_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:buttonTint="@android:color/white"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/medicare_textview"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="Medicare"
+                android:textSize="18dp"
+                android:textColor="@android:color/white"
+                android:background="@color/medicare_color"
+                android:textStyle="bold"/>
+
+            <CheckBox
+                android:id="@+id/medicare_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:buttonTint="@android:color/white"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/water_textview"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="Water"
+                android:textSize="18dp"
+                android:textColor="@android:color/white"
+                android:background="@color/water_color"
+                android:textStyle="bold"/>
+
+            <CheckBox
+                android:id="@+id/water_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:buttonTint="@android:color/white"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/food_textview"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="Food"
+                android:textSize="18dp"
+                android:background="@color/food_color"
+                android:textStyle="bold"/>
+
+            <CheckBox
+                android:id="@+id/food_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/housing_textview"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="Housing/Shelter Fixes"
+                android:textSize="18dp"
+                android:textColor="@android:color/white"
+                android:background="@color/housing_color"
+                android:textStyle="bold"/>
+
+            <CheckBox
+                android:id="@+id/housing_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:buttonTint="@android:color/white"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/vaccination_textview"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="Vaccination"
+                android:textSize="18dp"
+                android:textColor="@android:color/white"
+                android:background="@color/vaccination_color"
+                android:textStyle="bold"/>
+
+            <CheckBox
+                android:id="@+id/vaccination_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:buttonTint="@android:color/white"/>
+
+        </FrameLayout>
+    </LinearLayout>
 
     <Button
-        android:id="@+id/submit_button"
+        android:id="@+id/help_button"
         style="?android:textAppearanceSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +202,7 @@
         android:background="@color/colorPrimaryDark"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="@dimen/padding_8dp"
-        android:text="Submit"
+        android:text="I Need Help"
         android:textColor="@android:color/white"
         android:textStyle="bold" />
 

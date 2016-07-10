@@ -45,6 +45,20 @@ exports.signUp = function signUp(req,res) {
    });
 };
 
+exports.volunteer_signUp = function volunteer_signUp(req,res) {
+
+	ejs.renderFile('./views/volunteer_signup.ejs',function(err, result) {
+		// render on success
+		if (!err) {
+			res.end(result);
+		}
+		// render or error
+		else {
+			res.end('An error occurred');
+			console.log(err);
+		}
+	});
+};
 exports.adminSignIn = function adminSignIn(req,res) {
 
 	ejs.renderFile('./views/adminSignin.ejs',function(err, result) {

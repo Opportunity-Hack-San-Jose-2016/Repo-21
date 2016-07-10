@@ -23,7 +23,7 @@
 
     <script src="assets/js/chart-master/Chart.js"></script>
 
-    <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyArVivv3iz7qmxthGksxjX-qXle1iVNR-M&callback="></script>
     
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -203,17 +203,22 @@
               <!-- sidebar menu start-->
               <ul class="sidebar-menu" id="nav-accordion">
               
-                  <p class="centered"><a href="profile.html"><img src="assets/img/admin.png" class="img-circle" width="60" height="60"></a></p>
+                  <p class="centered"><a href="/"><img src="assets/img/admin.png" class="img-circle" width="60" height="60"></a></p>
                   <h5 class="centered">Administrator</h5>
                     
                   <li class="mt">
-                      <a class="active" href="index.html">
+                      <a class="active" href="/testAdmin">
                           <i class="fa fa-dashboard"></i>
                           <span>Dashboard</span>
                       </a>
                   </li>
 
-                  
+                  <li class="mt">
+                      <a class="" ng-click="getAllVolunteers();">
+                          <i class="fa fa-dashboard"></i>
+                          <span>Volunteers</span>
+                      </a>
+                  </li>
 
               </ul>
               <!-- sidebar menu end-->
@@ -225,7 +230,7 @@
       MAIN CONTENT
       *********************************************************************************************************************************************************** -->
       <!--main content start-->
-      <section id="main-content">
+      <section id="main-content" ng-hide="mainDashboardSection">
           <section class="wrapper">
 
               <div class="row">
@@ -415,6 +420,31 @@
           </section>
       </section>
 
+      <section ng-hide="allVolunteersSection" class="col-md-9 col-md-offset-2" style="margin-top: 10%;">
+          <div><h2>All Volunteers list</h2></div>
+          <div class="table-responsive">
+          <table class="table table-striped">
+              <thead>
+              <tr>
+                  <td>First Name</td>
+                  <td>Last Name</td>
+                  <td>Email</td>
+                  <td>Phone</td>
+                  <td>Location</td>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="volunteer in allVolunteers">
+                  <td>{{volunteer.firstName}}</td>
+                  <td>{{volunteer.lastName}}</td>
+                  <td>{{volunteer.email}}</td>
+                  <td>{{volunteer.phoneNumber}}</td>
+                  <td>{{volunteer.city}}</td>
+              </tr>
+              </tbody>
+          </table>
+          </div>
+      </section>
       <!--main content end-->
       <!--footer start-->
       <footer class="site-footer">
