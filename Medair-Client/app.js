@@ -11,7 +11,8 @@ var express = require('express')
     , customer = require('./routes/customer')
     , sessionMgmt = require('./routes/sessionMgmt')
     , admin = require('./routes/admin')
-    , user = require('./routes/user');
+    , user = require('./routes/user')
+    ,organization = require('./routes/organization');
 
 //URL for the sessions collections in mongoDB
 var mongoSessionConnectURL = "mongodb://localhost:27017/Amazonfresh";
@@ -57,11 +58,16 @@ app.get('/signin', index.signIn);
 app.get('/signup', index.signUp);
 app.get('/homepage', login.redirectToHomepage);
 app.get('/logout', login.logout);
+app.get('/getRequestByRefugee', sessionMgmt.restrict,organization.getRequestsByRefugee);
+
+
 
 
 //POST
 app.post('/login', login.checkLogin);
 app.post('/register', user.register);
+app.post('/request',user.request);
+
 
 app.use(function (req, res, next) {
     res.render('error');

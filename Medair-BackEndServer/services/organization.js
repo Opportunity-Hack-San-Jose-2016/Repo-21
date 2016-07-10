@@ -4,7 +4,7 @@ var mongoURL = "mongodb://localhost:27017/Amazonfresh";
 var hash = require('./encryption').hash;
 
 exports.createOrganization = function (msg, callback) {
-    
+
     var saltGen, hashGen;
     hash(msg.password, function (err, salt, hash) {
         if (err) {
@@ -18,32 +18,58 @@ exports.createOrganization = function (msg, callback) {
             mongo.connect(mongoURL, function () {
                 var json_responses;
                 console.log('Connected to mongo at: ' + mongoURL);
-                var coll = mongo.collection('orders');
-                console.log("order creation ");
+                var coll = mongo.collection('Organization');
                 var params = {
-                    'id': msg.id,
+                    'orgId': msg.orgId,
                     'services': msg.services,
                     'locations': msg.locations,
                     'password': hashGen,
+                    'salt': salt,
                     'location': msg.location,
                     'contactPerson': msg.contactPerson,
                     'number': msg.number
                 };
+                coll.insert(params, function (err, result) {
+                    var jsonResponse;
+                    if (err) {
+                        jsonResponse = {'statusCode': 401}
+                        callback(null, jsonResponse);
+                    } else {
+                        jsonResponse = {'statusCode': 200};
+                        callback(null, jsonResponse);
+                    }
+                });
             });
-            coll.insert(params, function (err, result) {
-                var jsonResponse;
-                if (err) {
-                    jsonResponse = {'statusCode': 401}
-                    callback(null, jsonResponse);
-                } else {
-                    jsonResponse = {'statusCode': 200};
-                    callback(null, jsonResponse);
-                }
-            });
+
         }
     });
 };
 
+exports.getRequestByRefugee = function (msg, callback) {
+
+    mongo.connect(mongoURL, function () {
+        var json_responses;
+        console.log('Connected to mongo at: ' + mongoURL);
+        var coll = mongo.collection('Requests');
+        var params = {
+            'orgId': msg.orgId
+        };
+        coll.find(params).toArray(function (err, result) {
+            var jsonResponse;
+            if (err) {
+                jsonResponse = {'statusCode': 401}
+                callback(null, jsonResponse);
+            } else {
+                jsonResponse = {'statusCode': 200, 'refugeeRequests': result};
+                callback(null, jsonResponse);
+            }
+        });
+    });
+};
+
+
+
+//Code to Reuse
 exports.deleteCustomer = function (msg, callback) {
     var query = "delete from customers where cust_id = ?";
     var json_responses;
@@ -187,6 +213,5 @@ exports.viewCustomerProfile = function (msg, callback) {
 
         }
     }, q, [msg.cust_id]);
-
 
 };

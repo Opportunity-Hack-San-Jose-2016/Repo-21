@@ -15,7 +15,7 @@ exports.register = function (req, res) {
     if (req.param('userType') === 'organization') {
         queueName = 'createOrganization_queue';
         var msg_Payload = {
-            'id': req.param('id'),
+            'orgId': req.param('id'),
             'services': req.param('services'),
             'locations': req.param('locations'),
             'password': req.param('password'),
@@ -39,6 +39,39 @@ exports.register = function (req, res) {
         };
     }
     mq_client.make_request(queueName, msg_Payload, function (err, results) {
+        if (err) {
+            console.log('Err: ' + err);
+            res.send(results);
+            //throw err;
+        } else {
+            if (results.statusCode == 200) {
+                console.log('Successful creation of User!');
+                res.send(results);
+            } else if (results.statusCode == 402) {
+                console.log('User already exist.');
+                res.send(results);
+            } else {
+                console.log('Error Occured!');
+                res.send(results);
+            }
+        }
+    });
+};
+
+exports.request = function (req, res) {
+
+        var msg_Payload = {
+            'uid': req.param('uid'),
+            'ordId': req.param('orgId'),
+            'organization':req.param('organization'),
+            'firstName':req.param('firstName'),
+            'lastName':req.param('lastName'),
+            'services': req.param('services'),
+            'location': req.param('locations'),
+            'password': req.param('password'),
+            'disability':req.param('disability')
+        };
+    mq_client.make_request(requestHelp_queue, msg_Payload, function (err, results) {
         if (err) {
             console.log('Err: ' + err);
             res.send(results);

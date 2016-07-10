@@ -1,6 +1,6 @@
 var mysql = require("./mysql");
 var mongo = require("./mongo");
-var mongoURL = "mongodb://localhost:27017/Amazonfresh";
+var mongoURL = "mongodb://localhost:27017/MedAir";
 var hash = require('./encryption').hash;
 
 exports.createRefugee = function(msg, callback){
@@ -18,7 +18,7 @@ exports.createRefugee = function(msg, callback){
 			mongo.connect(mongoURL, function () {
 				var json_responses;
 				console.log('Connected to mongo at: ' + mongoURL);
-				var coll = mongo.collection('orders');
+				var coll = mongo.collection('Refugee');
 				console.log("order creation ");
 				var params = {
 					'uid': msg.uid,
@@ -47,6 +47,52 @@ exports.createRefugee = function(msg, callback){
 	});
 };
 
+
+exports.requestHelp = function(msg,callback){
+
+	mongo.connect(mongoURL, function () {
+		var json_responses;
+		console.log('Connected to mongo at: ' + mongoURL);
+		var coll = mongo.collection('HelpRequests');
+		console.log("order creation ");
+		var params = {
+			'uid': msg.uid,
+			'ordId': msg.orgId,
+			'organization':msg.organization,
+			'firstName':msg.firstName,
+			'lastName':msg.lastName,
+			'services': msg.services,
+			'location': msg.location,
+			'password': msg.password,
+			'disability':msg.disability
+		};
+	});
+	coll.insert(params, function (err, result) {
+		var jsonResponse;
+		if (err) {
+			jsonResponse = {'statusCode': 401}
+			callback(null, jsonResponse);
+		} else {
+			jsonResponse = {'statusCode': 200};
+			callback(null, jsonResponse);
+		}
+	});
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Code to reuse
 exports.deleteCustomer = function(msg, callback){
 	var query="delete from customers where cust_id = ?";
 	var json_responses;
