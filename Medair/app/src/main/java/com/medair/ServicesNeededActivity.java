@@ -351,7 +351,7 @@ public class ServicesNeededActivity extends AppCompatActivity implements GoogleA
                 JSONObject locationJson = new JSONObject();
 
                 locationJson.put("lat", String.valueOf(mLastLocation.getLatitude()));
-                locationJson.put("long", String.valueOf(mLastLocation.getLatitude()));
+                locationJson.put("long", String.valueOf(mLastLocation.getLongitude()));
 
                 parameters.put("services", services);
                 parameters.put("location", locationJson);
@@ -368,7 +368,7 @@ public class ServicesNeededActivity extends AppCompatActivity implements GoogleA
 
             RequestQueue queue = Volley.newRequestQueue(ServicesNeededActivity.this);
 
-            JsonObjectRequest request = new JsonObjectRequest("http://12b1b0a6.ngrok.io/requestHelp", parameters, new Response.Listener<JSONObject>() {
+            JsonObjectRequest request = new JsonObjectRequest("http://8d970d9c.ngrok.io/requestHelp", parameters, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
