@@ -26,9 +26,6 @@ exports.createRefugee = function(msg, callback){
 					'lastName': msg.lastName,
 					'password': msg.password,
 					'location': msg.location,
-					'city': msg.city,
-					'state': msg.state,
-					'zipcode': msg.zipcode,
 					'gender': msg.gender,
 					'disability': msg.disability
 				};

@@ -31,9 +31,6 @@ exports.register = function (req, res) {
             'lastName': req.param('lastName'),
             'password': req.param('password'),
             'location': req.param('location'),
-            'city': req.param('city'),
-            'state': req.param('state'),
-            'zipcode': req.param('zipcode'),
             'Gender': req.param('gender'),
             'Disability': req.param('disability')
         };
