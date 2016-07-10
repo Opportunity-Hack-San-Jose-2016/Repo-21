@@ -68,6 +68,7 @@ app.get('/getNoOfCompletedRequests', sessionMgmt.restrict,organization.noofcompl
 //app.get('/getOrgLocation', sessionMgmt.restrict,organization.getLocations);
 app.get('/getAllRefugees', sessionMgmt.restrict,user.getAll);
 
+
 //POST
 app.post('/login', login.checkLogin);
 app.get('/register', user.register);
@@ -87,3 +88,5 @@ mongo.connect(mongoSessionConnectURL, function () {
         console.log('Express server listening on port ' + app.get('port'));
     });
 });
+
+//
